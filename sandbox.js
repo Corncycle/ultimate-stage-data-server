@@ -12,6 +12,7 @@ const misc = require('./database-scripts/miscDataTools')
 const char = require('./database-scripts/utility/charIdTools')
 
 const weeklyUpdateTools = require('./database-scripts/weeklyUpdateTools')
+const miscDataTools = require('./database-scripts/miscDataTools')
 const backfill = require('./database-scripts/playerIDBackfillTools')
 
 const mongoose = require('mongoose')
@@ -24,11 +25,14 @@ mongoConnect().catch((err) => console.log(err))
 const Game = require('./models/game')
 
 async function main() {
-  console.log(
-    await apiTools.getGamesFromVettedEvent(
-      'tournament/hex-smash-edition-v8/event/ultimate-singles'
-    )
-  )
+  // console.log(
+  //   await apiTools.getGamesFromVettedEvent(
+  //     'tournament/battle-of-bc-5-5/event/ultimate-singles'
+  //   )
+  // )
+  await updateTools.processAllTournamentsInPastNDays(30)
+  await updateTools.removeGamesFromBlacklistedTournaments()
+  await miscDataTools.makeAndSetCurrentMiscData()
 
   mongoose.disconnect()
 }
