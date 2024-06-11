@@ -30,7 +30,7 @@ async function main() {
   //     'tournament/battle-of-bc-5-5/event/ultimate-singles'
   //   )
   // )
-  await updateTools.processAllTournamentsInPastNDays(30)
+  await updateTools.processAllTournamentsInPastNDays(14)
   await updateTools.removeGamesFromBlacklistedTournaments()
   await miscDataTools.makeAndSetCurrentMiscData()
 

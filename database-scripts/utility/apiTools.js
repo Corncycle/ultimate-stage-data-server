@@ -203,7 +203,7 @@ exports.eventSlugRepresentativeHasStageData = async (slug) => {
       slug,
     },
     delayBetweenQueries,
-    'Checking if tournament reported stage data...'
+    `Checking if tournament [${slug}] reported stage data...`
   )
   try {
     const stageName = response.event.sets.nodes[0].games[0].stage.name

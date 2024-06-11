@@ -17,6 +17,21 @@ exports.getBlackListedEventsWithCache = async () => {
 }
 
 exports.processTournamentSlug = async (slug, onlyProcessIfOffline) => {
+  // very rarely tournaments can have a null slug for some reason?
+  // first occurrence on 2024-06-07, surrounding logs:
+
+  // 2024-06-07 14:22:56.529 this.$__.validationError = new ValidationError(this);
+  // 2024-06-07 14:22:56.529 /workspace/node_modules/mongoose/lib/document.js:3087
+  // 2024-06-07 14:22:56.526 Error saving ProcessedTournament null
+  // 2024-06-07 14:22:55.222 Sending request... Checking if tournament reported stage data...
+  // 2024-06-07 14:22:53.889 Sending request... Checking if tournament reported stage data...
+  // 2024-06-07 14:22:52.567 Sending request... Checking if tournament reported stage data...
+
+  // so just don't process a null slug
+  if (!slug) {
+    return
+  }
+
   const blacklist = await this.getBlackListedEventsWithCache()
   if (blacklist.includes(slug)) {
     console.log(`Not processing blacklisted slug ${slug}`)
